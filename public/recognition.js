@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', speechToEmotion, false)
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 const startBtn = document.querySelector("#start-btn")
@@ -19,6 +18,8 @@ utter.volume = 1
 utter.rate = 1
 utter.pitch = 1
 utter.lang = 'en-US'
+
+
 
 //teste1232
 //sdcjbwjcs
@@ -70,6 +71,11 @@ function speechToEmotion() {
     if(speech.includes('what is the weather in')){
       getTheWeather(speech)
     }
+
+    if(speech.includes('what is the weather for tomorrow in')){
+      getTheWeatherTomorrow(speech)
+    }
+   
 
     if(speech.includes('goodbye') || speech.includes('see you soon')){
       utter.text ="Bye, until the next time"
@@ -158,6 +164,26 @@ function speechToEmotion() {
     return `tommorow is ${tomorrow.toLocaleDateString()}`
   }
 
+  const getTheWeatherTomorrow = (speech) => {
+    fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?q=${speech.split(' ')[7]}&units=metric&appid=08dbab0eeefe53317d2e0ad7c2a2e060`)
+    .then(function(response){
+      return response.json();
+    }).then(function(weather){
+      if (weather.cod === '404'){
+        utterThis = new SpeechSynthesisUtterance(`I cannot find the weather for ${speech.split(' ')[7]}`);
+        synth.speak(utterThis)
+        return;
+      }
+      console.log(weather)
+      utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.city.name} for tomorrow is mostly full of
+      ${weather.list[1].weather[0].description} with a temperature of ${weather.list[1].temp.day} degrees Celcius`);
+      synth.speak(utterThis)
+      $(".emoji").html("<img src='http://openweathermap.org/img/w/" + weather.list[1].weather[0].icon + ".png' alt='Icon depicting current weather.'></i>");
+    })
+  }
+ 
+
+
   const getTheWeather = (speech) => {
     fetch(`http://api.openweathermap.org/data/2.5/weather?q=${speech.split(' ')[5]}&units=metric&appid=7b4019f1b4eee1b323e6e6e61027976c`)
     .then(function(response){
@@ -171,6 +197,8 @@ function speechToEmotion() {
       utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.name} is mostly full of
       ${weather.weather[0].description} at a temperature of ${weather.main.temp} degrees Celcius`);
       synth.speak(utterThis)
+      console.log(weather)
+      
     })
   }
 
@@ -271,11 +299,3 @@ function speechToEmotion() {
         console.log(err)
       })
     }
-
-  
-
-
-
-
-  
-

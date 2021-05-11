@@ -21,6 +21,7 @@ utter.pitch = 1
 utter.lang = 'en-US'
 
 //teste1232
+//sdcjbwjcs
 
 startBtn.addEventListener("click", () => { 
   recognition.start()

@@ -154,7 +154,7 @@ function speechToEmotion() {
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return `João is retarded at ${tomorrow.toLocaleDateString()}`
+    return `João ${tomorrow.toLocaleDateString()}`
   }
 
   const getTheWeather = (speech) => {

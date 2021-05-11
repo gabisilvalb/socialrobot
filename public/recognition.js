@@ -62,7 +62,10 @@ function speechToEmotion() {
     if(speech.includes('what is the date')){
       speak(getDate);
     }
-
+    if(speech.includes('what day is tomorrow'))
+      {
+        speak(getDateTommorow)
+      }
     if(speech.includes('what is the weather in')){
       getTheWeather(speech)
     }
@@ -76,8 +79,6 @@ function speechToEmotion() {
     if(speech.includes('movies of ')){
       getMovies(speech)
     }
- 
-
 
     fetch(`/emotion?text=${speech}`)
       .then((response) => response.json())
@@ -148,6 +149,13 @@ function speechToEmotion() {
     const time = new Date(Date.now());
     return `today is ${time.toLocaleDateString()}`;
   };
+
+  const getDateTommorow = () => {
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return `tomorrow is ${tomorrow.toLocaleDateString()}`
+  }
 
   const getTheWeather = (speech) => {
     fetch(`http://api.openweathermap.org/data/2.5/weather?q=${speech.split(' ')[5]}&units=metric&appid=7b4019f1b4eee1b323e6e6e61027976c`)

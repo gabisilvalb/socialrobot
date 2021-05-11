@@ -20,7 +20,7 @@ utter.rate = 1
 utter.pitch = 1
 utter.lang = 'en-US'
 
-
+//teste123
 
 startBtn.addEventListener("click", () => { 
   recognition.start()

@@ -178,7 +178,8 @@ function speechToEmotion() {
       utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.city.name} for tomorrow is mostly full of
       ${weather.list[1].weather[0].description} with a temperature of ${weather.list[1].temp.day} degrees Celcius`);
       synth.speak(utterThis)
-      $(".emoji").html("<img src='http://openweathermap.org/img/w/" + weather.list[1].weather[0].icon + ".png' alt='Icon depicting current weather.'></i>");
+      $(".weather").html("<h1 class='weather-"+weather.list[1].weather[0].icon+"'></h1><p></p>")
+      
     })
   }
  
@@ -198,7 +199,7 @@ function speechToEmotion() {
       ${weather.weather[0].description} at a temperature of ${weather.main.temp} degrees Celcius`);
       synth.speak(utterThis)
       console.log(weather)
-      
+      $(".weather").html("<h5 class='weather-"+weather.weather[0].icon+"'></h5><p></p>")
     })
   }
 

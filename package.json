@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "open-weather-icons": "^0.0.8",
     "sentiment": "^5.0.2",
     "timer.js": "^1.0.4"
   }

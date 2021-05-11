@@ -1,0 +1,85 @@
+.weather {
+    display: inline-block;
+    transform: translate(0, 0);
+    text-rendering: auto;
+    font: normal normal 400 14px/1 OpenWeatherIcons;
+    font-size: inherit;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+.weather-01d::before {
+    content:url("../images_weather/day_clear.png");
+}
+
+.weather-01n::before {
+    content:url("../images_weather/night_full_moon_clear.png");
+}
+
+.weather-02d::before {
+    content:url("../images_weather/day_partial_cloud.png");
+}
+
+.weather-02n::before {
+    content:url("../images_weather/night_full_moon_partial_cloud.png");
+}
+
+.weather-03d::before {
+    content:url("../images_weather/cloudy.png");
+}
+
+.weather-03n::before {
+    content:url("../images_weather/cloudy.png");
+}
+
+.weather-04d::before {
+    content:url("../images_weather/angry_clouds.png");
+}
+
+.weather-04n::before {
+    content:url("../images_weather/angry_clouds.png");
+}
+
+.weather-09d::before {
+    content:url("../images_weather/rain.png");
+}
+
+.weather-09n::before {
+    content:url("../images_weather/rain.png");
+}
+
+.weather-10d::before {
+    content:url("../images_weather/day_rain.png");
+}
+
+.weather-10n::before {
+    content:url("../images_weather/night_full_moon_rain.png");
+}
+
+.weather-11d::before {
+    content:url("../images_weather/thunder.png");
+}
+
+.weather-11n::before {
+    content:url("../images_weather/thunder.png");
+}
+
+.weather-1232n::before {
+    content: "\ea0f";
+}
+
+.owi-13d::before {
+    content:url("../images_weather/snow.png");
+}
+
+.owi-13n::before {
+    content:url("../images_weather/snow.png");
+}
+
+.owi-50d::before {
+    content:url("../images_weather/mist.png");
+}
+
+.owi-50n::before {
+    content:url("../images_weather/mist.png");
+}

@@ -1,0 +1,58 @@
+.emoji img {
+    width: 300px;
+}
+
+.emoji .error {
+    content:url("../images/error.png");
+}
+
+.emoji .idle {
+    content:url("../images/idle.png");
+}
+
+.emoji .listening {
+    content:url("../images/listening.png");
+}
+
+.emoji .negative {
+    content:url("../images/negative.png");
+}
+
+.emoji .neutral {
+    content:url("../images/neutral.png");
+}
+
+.emoji .positive {
+    content:url("../images/positive.png");
+}
+
+.emoji .searching {
+    
+    content:url("../images/searching.png");
+}
+
+button {
+    padding: 15px 60px;
+    border: none;
+    background-color: rgb(221, 93, 18);
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+    width: 200px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+#movies, #movie img{
+    width: 100%;
+}
+
+@media(min-width:960px){
+#movies .col-md-3 .well{
+    height: 390px;
+}
+
+#movies .col-md-3 img{
+    height: 240px;
+}
+}

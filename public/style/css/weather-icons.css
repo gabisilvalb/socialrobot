@@ -6,7 +6,7 @@
     font-size: inherit;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-}
+}  
 
 .weather-01d::before {
     content:url("../images_weather/day_clear.png");

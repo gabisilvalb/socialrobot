@@ -178,7 +178,7 @@ function speechToEmotion() {
       utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.city.name} for tomorrow is mostly full of
       ${weather.list[1].weather[0].description} with a temperature of ${weather.list[1].temp.day} degrees Celcius`);
       synth.speak(utterThis)
-      $(".weather").html("<h1 class='weather-"+weather.list[1].weather[0].icon+"'></h1><p></p>")
+      $(".weather").html("<h5 class='weather-"+weather.list[1].weather[0].icon+"'></h5><p></p>")
       
     })
   }

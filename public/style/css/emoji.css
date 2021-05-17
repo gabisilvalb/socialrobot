@@ -61,3 +61,11 @@ button {
     height: 240px;
 }
 }
+
+.topnav-centered a {
+    float: none;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -25%);
+  }

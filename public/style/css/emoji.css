@@ -1,5 +1,5 @@
 .emoji img {
-    width: 300px;
+    width: 250px;
 }
 
 .emoji .error {
@@ -44,7 +44,7 @@ button {
     font-size: 20px;
     font-weight: 600;
     border-radius: 5px;
-    width: 200px;
+    width: 150px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
@@ -80,6 +80,7 @@ button {
     text-align: center;
 }
 
+<<<<<<< HEAD
 .emoji .weather-01d::before {
     content:url("../images_weather/day_clear.png");
 }
@@ -155,3 +156,8 @@ button {
 .emoji .owi-50n::before {
     content:url("../images_weather/mist.png");
 }
+=======
+.topnav-right {
+    float: right;
+  }
+>>>>>>> fdd6c79ff6288d85ab2ccbdc9bce5e12bbd0f848

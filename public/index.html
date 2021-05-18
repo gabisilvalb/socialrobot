@@ -10,56 +10,46 @@
 
 
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
-            <div class="container-fluid topnav-centered">
-              <a class="navbar-brand" href="#" style=text-align:center;><strong style="font-size:150%;"> Social App </strong> <br> <sub> SocialRobot4AAL </sub></a>
-              <!--
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              -->
-              <button type="button" id="start-btn" class="btn btn-primary topnav-right">Start</button>
-            </div>
-
-        </nav>
-
-
-        
-        <div class="container" style="text-align:center;">
-            <div class="emoji">
-                <img class="idle">
-                <section class="ajax-section">
-                    <div class="container">
-                      <ul class="cities"></ul>
-                    </div>
-                  </section>
-            </div>
-<<<<<<< HEAD
-
-=======
-            <p></p>
-            <div class="container">
-                <div class="weather">
+        <div class="content"></div>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+                <div class="container-fluid topnav-centered">
+                <a class="navbar-brand" href="#" style=text-align:center;><strong style="font-size:150%;"> Social App </strong> <br> <sub> SocialRobot4AAL </sub></a>
+                <!--
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                -->
+                <button type="button" id="start-btn" class="btn btn-outline-danger" style="width: 60px; height: 60px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-mic" viewBox="0 0 16 16">
+                    <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"></path>
+                    <path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0v5zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z"></path>
+                    </svg>
+                </button>
+                <!--<button type="button" id="start-btn" class="btn btn-primary topnav-right">Start<i class="bi bi-mic"></i></button>-->
                 </div>
+
+            </nav>
+
+
+            <div class="container" style="text-align:center;">
+                <div class="emoji">
+                    <img class="idle">
+                </div>
+                <!--<button type="button" id="start-btn" class="btn btn-primary">Start</button>-->
             </div>
-            <!--
->>>>>>> fdd6c79ff6288d85ab2ccbdc9bce5e12bbd0f848
-            <button type="button" id="start-btn" class="btn btn-primary">Start</button>
-            -->
+            <p id="p1"></p>
+            <br>
+            <div class="container">
+                <div id="movies" class="row"></div>
+                <br> 
+                <br> 
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <script src="recognition.js"></script>
         </div>
-
-        
-
-        <div class="container">
-            <div id="movies" class="row"></div>
-        </div>
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="recognition.js"></script>
-
     </body>
-
     <footer>
         <p>Engenharia Informática – Projeto Informático – 2021
         <br>

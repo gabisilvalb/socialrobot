@@ -38,12 +38,12 @@ function speechToEmotion() {
     
 
     if(speech.includes('hello') || speech.includes('hi') ){
-            utter.text = "Hi"
-            synth.speak(utter)
+      utter.text = "Hi"
+      synth.speak(utter)
     }
     if(speech.includes('great thank you')){
-        utter.text ="Glad to hear that"
-        synth.speak(utter)
+      utter.text ="Glad to hear that"
+      synth.speak(utter)
     }
     if(speech.includes('sad') || speech.includes('bad day')){
       utter.text ="That is terrible , let me tell you a joke"
@@ -58,22 +58,22 @@ function speechToEmotion() {
       getJokes()
     }
 
-    if(speech.includes('what is the time')){
+    if(speech.includes('what is the time') || speech.includes('what time is it') || speech.includes('can you tell me the time') ){
      speak(getTime);
     }
 
-    if(speech.includes('what is the date')){
+    if(speech.includes('what is the date') || speech.includes('can you tell me de date') ){
       speak(getDate);
     }
     if(speech.includes('what day is tomorrow'))
       {
         speak(getDateTommorow)
       }
-    if(speech.includes('what is the weather in')){
+    if(speech.includes('what is the weather in') || speech.includes('what is the temperature in')){
       getTheWeather(speech)
     }
 
-    if(speech.includes('what is the weather for tomorrow in')){
+    if(speech.includes('what is the weather for tomorrow in') || speech.includes('what is the temperature for tomorrow in') || speech.includes('what day is today')){
       getTheWeatherTomorrow(speech)
     }
    
@@ -153,6 +153,10 @@ function speechToEmotion() {
 
   const getDate = () => {
     const time = new Date(Date.now());
+    var today = new Date()
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var dateTime = date
+    document.getElementById("p1").innerHTML = dateTime
     return `today is ${time.toLocaleDateString()}`;
   };
 
@@ -175,9 +179,28 @@ function speechToEmotion() {
       }
       console.log(weather)
       utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.city.name} for tomorrow is mostly full of
-      ${weather.list[1].weather[0].description} with a temperature of ${weather.list[1].temp.day} degrees Celcius`);
+      ${weather.list[1].weather[0].description} with a temperature of ${Math.round(weather.list[1].temp.day)} degrees Celcius`);
       synth.speak(utterThis)
-      $(".emoji").html("<h5 class='weather-"+weather.list[1].weather[0].icon+"'></h5><p></p>")
+      output = `
+      <br>
+      <br>
+      <div class="card text-white mx-auto w-50 p-3 bg-info mb-3 text-center" style="max-width: 20rem;">
+          <div class="card-header">
+            <h2 class="city-name" data-name="${weather.city.name},${weather.city.country}">
+              <span>${weather.city.name}</span>
+              <sup class="badge bg-warning" style="font-size: 0.4em;">${weather.city.country}</sup>
+            </h2>
+          </div>
+          <div class="card-body">
+            <div class="city-temp" style="font-size:200%;">${Math.round(weather.list[1].temp.day)}<sup>°C</sup></div>
+              <figure>
+                <h5 class="weather-${weather.list[1].weather[0].icon}"></h5>
+                <p style="font-size:150%; text-transform: uppercase"><strong>${weather.list[1].weather[0].description}</strong></p>
+              </figure>
+            </div>
+          </div>
+        </div>`;
+      $(".emoji").html(output)
 
     })
   }
@@ -199,16 +222,24 @@ function speechToEmotion() {
       synth.speak(utterThis)
       console.log(weather)
       output = `
-        <h2 class="city-name" data-name="${weather.name},${weather.sys.country}">
-          <span>${weather.name}</span>
-          <sup>${weather.sys.country}</sup>
-        </h2>
-        <div class="city-temp">${Math.round(weather.main.temp)}<sup>°C</sup></div>
-          <figure>
-        <h5 class="weather-${weather.weather[0].icon}"></h5>
-        <figcaption>${weather.weather[0]["description"]}</figcaption>
-        </figure>
-      `;
+      <br>
+      <br>
+      <div class="card text-white mx-auto w-50 p-3 bg-info mb-3 text-center" style="max-width: 20rem;">
+          <div class="card-header">
+            <h2 class="city-name" data-name="${weather.name},${weather.sys.country}">
+              <span>${weather.name}</span>
+              <sup class="badge bg-warning" style="font-size: 0.4em;">${weather.sys.country}</sup>
+            </h2>
+          </div>
+          <div class="card-body">
+            <div class="city-temp" style="font-size:200%;">${Math.round(weather.main.temp)}<sup>°C</sup></div>
+              <figure>
+                <h5 class="weather-${weather.weather[0].icon}"></h5>
+                <p style="font-size:150%; text-transform: uppercase"><strong>${weather.weather[0]["description"]}</strong></p>
+              </figure>
+            </div>
+          </div>
+        </div>`;
       $(".emoji").html(output)
     })
   }
@@ -244,6 +275,7 @@ function speechToEmotion() {
         let movies = response.data.Search;
         let output = '';
         $.each(movies, (index,movie) =>{
+          
           output += `
               <div class="col-md-3">
                 <div class="well text-center">
@@ -254,6 +286,7 @@ function speechToEmotion() {
               </div>     
           `
         })
+        $(".emoji").html("<img class='popcorn'>")
         $('#movies').html(output)
       })
       .catch((err) => {
@@ -278,30 +311,32 @@ function speechToEmotion() {
         let output = `
             <div class="row">
               <div class="col-md-4">
-                <img src="${movie.Poster}" class="thumbnail">
+                <img src="${movie.Poster}" class="thumbnail" style="border: 8px solid #2c3e50;">
               </div>
               <div class="col-md-8">
                 <h2> ${movie.Title}</h2>
                 <ul class="list-group">
-                  <li class="list-group-item"><strong>Genre:</strong> ${movie.Genre}</li>
-                  <li class="list-group-item"><strong>Released:</strong> ${movie.Released}</li>
-                  <li class="list-group-item"><strong>Rated:</strong> ${movie.Rated}</li>
-                  <li class="list-group-item"><strong>IMDB Rating:</strong> ${movie.ImdbRating}</li>
-                  <li class="list-group-item"><strong>Director:</strong> ${movie.Director}</li>
-                  <li class="list-group-item"><strong>Writer:</strong> ${movie.Writer}</li>
-                  <li class="list-group-item"><strong>Actors:</strong> ${movie.Actors}</li>
+                  <li class="list-group-item list-group-item-action active"><strong>Genre:</strong> ${movie.Genre}</li>
+                  <li class="list-group-item list-group-item-action active"><strong>Released:</strong> ${movie.Released}</li>
+                  <li class="list-group-item list-group-item-action active"><strong>Rated:</strong> ${movie.Rated}</li>
+                  <li class="list-group-item list-group-item-action active"><strong>IMDB Rating:</strong> ${movie.ImdbRating}</li>
+                  <li class="list-group-item list-group-item-action active"><strong>Director:</strong> ${movie.Director}</li>
+                  <li class="list-group-item list-group-item-action active"><strong>Writer:</strong> ${movie.Writer}</li>
+                  <li class="list-group-item list-group-item-action active"><strong>Actors:</strong> ${movie.Actors}</li>
                 </ul>
+                <div class="row">
+                  <div class="well">
+                    <br>
+                    <h3><strong>Plot</strong></h3>
+                    ${movie.Plot}
+                      <hr>
+                      <a href="http://imdb.com/title/${movie.imdbID}" target="_blank" class="btn btn-primary">View Imdb</a>
+                      <a href="index.html" class="btn btn-danger"> Go back to Social App</a>
+                  </div>
+                </div>
               </div> 
             </div>
-            <div class="row">
-              <div class="well">
-                <h3>Plot</h3>
-                  ${movie.Plot}
-                  <hr>
-                  <a href="http://imdb.com/title/${movie.imdbID}" target="_blank" class="btn btn-primary">View Imdb</a>
-                  <a href="index.html" class="btn btn-default"> Go back to Social App</a>
-              </div>
-            </div>
+
 
         `;
         $('#movie').html(output);

@@ -79,3 +79,79 @@ button {
     color: white;
     text-align: center;
 }
+
+.emoji .weather-01d::before {
+    content:url("../images_weather/day_clear.png");
+}
+
+.emoji .weather-01n::before {
+    content:url("../images_weather/night_full_moon_clear.png");
+}
+
+.emoji .weather-02d::before {
+    content:url("../images_weather/day_partial_cloud.png");
+}
+
+.emoji .weather-02n::before {
+    content:url("../images_weather/night_full_moon_partial_cloud.png");
+}
+
+.emoji .weather-03d::before {
+    content:url("../images_weather/cloudy.png");
+}
+
+.emoji .weather-03n::before {
+    content:url("../images_weather/cloudy.png");
+}
+
+.emoji .weather-04d::before {
+    content:url("../images_weather/angry_clouds.png");
+}
+
+.emoji .weather-04n::before {
+    content:url("../images_weather/angry_clouds.png");
+}
+
+.emoji .weather-09d::before {
+    content:url("../images_weather/rain.png");
+}
+
+.emoji .weather-09n::before {
+    content:url("../images_weather/rain.png");
+}
+
+.emoji .weather-10d::before {
+    content:url("../images_weather/day_rain.png");
+}
+
+.emoji .weather-10n::before {
+    content:url("../images_weather/night_full_moon_rain.png");
+}
+
+.emoji .weather-11d::before {
+    content:url("../images_weather/thunder.png");
+}
+
+.emoji .weather-11n::before {
+    content:url("../images_weather/thunder.png");
+}
+
+.emoji .weather-1232n::before {
+    content: "\ea0f";
+}
+
+.emoji .owi-13d::before {
+    content:url("../images_weather/snow.png");
+}
+
+.emoji .owi-13n::before {
+    content:url("../images_weather/snow.png");
+}
+
+.emoji .owi-50d::before {
+    content:url("../images_weather/mist.png");
+}
+
+.emoji .owi-50n::before {
+    content:url("../images_weather/mist.png");
+}

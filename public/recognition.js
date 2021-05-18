@@ -34,7 +34,8 @@ function speechToEmotion() {
   recognition.onresult = function(event) {
     const results = event.results
     const speech = results[results.length-1][0].transcript
-    setEmoji('searching')
+    $(".emoji").html("<img class='search'>")
+    
 
     if(speech.includes('hello') || speech.includes('hi') ){
             utter.text = "Hi"
@@ -91,22 +92,21 @@ function speechToEmotion() {
       .then((response) => response.json())
       .then((result) => {
         if (result.score > 0) {
-          setEmoji('positive')
-
+          $(".emoji").html("<img class='positive'>")
 
         } else if (result.score < 0) {
-          setEmoji('negative')
+          $(".emoji").html("<img class='negative'>")
 
 
         } else {
-          setEmoji('neutral')
+          $(".emoji").html("<img class='neutral'>")
 
         }
         console.log('result ->', result)
       })
       .catch((e) => {
         console.error('Request error -> ', e)
-        setEmoji('error')
+        $(".emoji").html("<img class='error'>")
         recognition.abort()
       })
   }
@@ -117,11 +117,10 @@ function speechToEmotion() {
   }*/
 
   recognition.onstart = function() {
-    setEmoji('listening')
-  }
+    $(".emoji").html("<img class='listening'>")  }
 
   recognition.onend = function(){
-    setEmoji('idle')
+    $(".emoji").html("<img class='idle'>")
     console.log('Speech recognition service disconnected')
     
     setTimeout(function() {
@@ -178,8 +177,8 @@ function speechToEmotion() {
       utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.city.name} for tomorrow is mostly full of
       ${weather.list[1].weather[0].description} with a temperature of ${weather.list[1].temp.day} degrees Celcius`);
       synth.speak(utterThis)
-      $(".weather").html("<h5 class='weather-"+weather.list[1].weather[0].icon+"'></h5><p></p>")
-      
+      $(".emoji").html("<h5 class='weather-"+weather.list[1].weather[0].icon+"'></h5><p></p>")
+
     })
   }
  
@@ -196,10 +195,21 @@ function speechToEmotion() {
         return;
       }
       utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.name} is mostly full of
-      ${weather.weather[0].description} at a temperature of ${weather.main.temp} degrees Celcius`);
+      ${weather.weather[0].description} at a temperature of ${Math.round(weather.main.temp)} degrees Celcius`);
       synth.speak(utterThis)
       console.log(weather)
-      $(".weather").html("<h5 class='weather-"+weather.weather[0].icon+"'></h5><p></p>")
+      output = `
+        <h2 class="city-name" data-name="${weather.name},${weather.sys.country}">
+          <span>${weather.name}</span>
+          <sup>${weather.sys.country}</sup>
+        </h2>
+        <div class="city-temp">${Math.round(weather.main.temp)}<sup>°C</sup></div>
+          <figure>
+        <h5 class="weather-${weather.weather[0].icon}"></h5>
+        <figcaption>${weather.weather[0]["description"]}</figcaption>
+        </figure>
+      `;
+      $(".emoji").html(output)
     })
   }
 

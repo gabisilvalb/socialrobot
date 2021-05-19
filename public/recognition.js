@@ -25,9 +25,9 @@ utter.lang = 'en-US'
 //sdcjbwjcs
 
 startBtn.addEventListener("click", () => { 
-  recognition.start()
-  
+  recognition.start() 
 })
+
 
 function speechToEmotion() {
 
@@ -58,17 +58,9 @@ function speechToEmotion() {
       getJokes()
     }
 
-    if(speech.includes('what is the time') || speech.includes('what time is it') || speech.includes('can you tell me the time') ){
-      getTime()
-    }
+    
 
-    if(speech.includes('what is the date') || speech.includes('can you tell me de date') || speech.includes('what day is today') ){
-      getDate()
-    }
-    if(speech.includes('what day is tomorrow'))
-      {
-        speak(getDateTommorow)
-      }
+    
     if(speech.includes('what is the weather in') || speech.includes('what is the temperature in')){
       getTheWeather(speech)
     }
@@ -84,7 +76,7 @@ function speechToEmotion() {
       recognition.abort()
     }
 
-    if(speech.includes('movies of ')){
+    if(speech.includes('movies of')){
       getMovies(speech)
     }
 
@@ -99,8 +91,18 @@ function speechToEmotion() {
 
 
         } else {
-          $(".emoji").html("<img class='neutral'>")
-
+          if(speech.includes('what is the time') || speech.includes('what time is it') || speech.includes('can you tell me the time') ){
+            getTime()
+          }
+          else if(speech == 'what is the date' || speech.includes('can you tell me de date') || speech.includes('what day is today') ){
+              getDate()
+          }
+          else if(speech.includes('what day is tomorrow') || speech =='what is the date for tomorrow'){
+            getDateTommorow()
+          }
+          else{
+            $(".emoji").html("<img class='neutral'>")
+          }
         }
         console.log('result ->', result)
       })
@@ -154,11 +156,11 @@ function speechToEmotion() {
                 hour = 12;
                 am_pm = "AM";
             }
-    var fullTime = hour + ":" + min + am_pm; 
+    var fullTime = hour + ":" + min + ' ' + am_pm; 
     utterThis = new SpeechSynthesisUtterance(`the time is ${time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true })}`);
     synth.speak(utterThis)
-    output = `<img class="clock">${fullTime}</div>`
-    $(".emoji").html(output)   
+    output = `<div id="clock">${fullTime}</div>`
+      $(".emoji").html(output)
   };
 
   const getDate = () => {
@@ -166,9 +168,10 @@ function speechToEmotion() {
     var today = new Date()
     var date = today.getDate() + '/' + (today.getMonth()+1)+'/'+today.getFullYear();
     var dateTime = date
-    utterThis = new SpeechSynthesisUtterance(`today is ${time.toLocaleDateString()}`);
+    utterThis = new SpeechSynthesisUtterance(`today is ${time.toLocaleDateString('en-US',{day:'numeric', month: 'numeric', year:'numeric'})}`);
     synth.speak(utterThis)
-    document.getElementById("p1").innerHTML = dateTime
+    output = `<div id="date">${dateTime}</div>`
+    $(".emoji").html(output)
   };
 
   const getDateTommorow = () => {
@@ -177,8 +180,10 @@ function speechToEmotion() {
     tomorrow.setDate(tomorrow.getDate() + 1);
     var date = today.getDate()+1 + '/' + (today.getMonth()+1)+'/'+ today.getFullYear();
     var dateTime = date
-    document.getElementById("p1").innerHTML = dateTime
-    return `tommorow is ${tomorrow.toLocaleDateString()}`
+    utterThis = new SpeechSynthesisUtterance(`tommorow is ${tomorrow.toLocaleDateString()}`);
+    synth.speak(utterThis)
+    output = `<div id="date">${dateTime}</div>`
+    $(".emoji").html(output)
   }
 
   const getTheWeatherTomorrow = (speech) => {

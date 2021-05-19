@@ -59,11 +59,11 @@ function speechToEmotion() {
     }
 
     if(speech.includes('what is the time') || speech.includes('what time is it') || speech.includes('can you tell me the time') ){
-     speak(getTime);
+      getTime()
     }
 
     if(speech.includes('what is the date') || speech.includes('can you tell me de date') || speech.includes('what day is today') ){
-      speak(getDate);
+      getDate()
     }
     if(speech.includes('what day is tomorrow'))
       {
@@ -134,21 +134,31 @@ function speechToEmotion() {
     setEmoji('idle')
     console.log('Speech recognition service disconnected')
   }*/
-
-  function setEmoji(type) {
-    const emojiElem = document.querySelector('.emoji img')
-    emojiElem.classList = type
-  }
 }
-
   const speak = (action) => {
     const utterThis = new SpeechSynthesisUtterance(action())
     synth.speak(utterThis)
   };
 
+  
   const getTime = () => {
-    const time = new Date(Date.now());
-    return `the time is ${time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true })}`
+    var time = new Date();
+    var hour = time.getHours();
+    var min = time.getMinutes();
+    am_pm = "AM";
+            if (hour > 12) {
+                hour -= 12;
+                am_pm = "PM";
+            }
+            if (hour == 0) {
+                hour = 12;
+                am_pm = "AM";
+            }
+    var fullTime = hour + ":" + min + am_pm; 
+    utterThis = new SpeechSynthesisUtterance(`the time is ${time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true })}`);
+    synth.speak(utterThis)
+    output = `<img class="clock">${fullTime}</div>`
+    $(".emoji").html(output)   
   };
 
   const getDate = () => {
@@ -156,8 +166,9 @@ function speechToEmotion() {
     var today = new Date()
     var date = today.getDate() + '/' + (today.getMonth()+1)+'/'+today.getFullYear();
     var dateTime = date
+    utterThis = new SpeechSynthesisUtterance(`today is ${time.toLocaleDateString()}`);
+    synth.speak(utterThis)
     document.getElementById("p1").innerHTML = dateTime
-    return `today is ${time.toLocaleDateString()}`;
   };
 
   const getDateTommorow = () => {
@@ -204,7 +215,6 @@ function speechToEmotion() {
           </div>
         </div>`;
       $(".emoji").html(output)
-
     })
   }
  

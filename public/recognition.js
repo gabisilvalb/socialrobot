@@ -80,6 +80,10 @@ function speechToEmotion() {
       getMovies(speech)
     }
 
+    if(speech.includes('musics of')){
+      getMusics(speech)
+    }
+
     fetch(`/emotion?text=${speech}`)
       .then((response) => response.json())
       .then((result) => {
@@ -362,4 +366,7 @@ function speechToEmotion() {
       .catch((err) => {
         console.log(err)
       })
+    }
+
+    function getMusics(speech){
     }

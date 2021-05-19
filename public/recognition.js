@@ -62,7 +62,7 @@ function speechToEmotion() {
      speak(getTime);
     }
 
-    if(speech.includes('what is the date') || speech.includes('can you tell me de date') ){
+    if(speech.includes('what is the date') || speech.includes('can you tell me de date') || speech.includes('what day is today') ){
       speak(getDate);
     }
     if(speech.includes('what day is tomorrow'))
@@ -73,7 +73,7 @@ function speechToEmotion() {
       getTheWeather(speech)
     }
 
-    if(speech.includes('what is the weather for tomorrow in') || speech.includes('what is the temperature for tomorrow in') || speech.includes('what day is today')){
+    if(speech.includes('what is the weather for tomorrow in') || speech.includes('what is the temperature for tomorrow in') ){
       getTheWeatherTomorrow(speech)
     }
    
@@ -154,7 +154,7 @@ function speechToEmotion() {
   const getDate = () => {
     const time = new Date(Date.now());
     var today = new Date()
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var date = today.getDate() + '/' + (today.getMonth()+1)+'/'+today.getFullYear();
     var dateTime = date
     document.getElementById("p1").innerHTML = dateTime
     return `today is ${time.toLocaleDateString()}`;
@@ -164,6 +164,9 @@ function speechToEmotion() {
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1);
+    var date = today.getDate()+1 + '/' + (today.getMonth()+1)+'/'+ today.getFullYear();
+    var dateTime = date
+    document.getElementById("p1").innerHTML = dateTime
     return `tommorow is ${tomorrow.toLocaleDateString()}`
   }
 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>Map</title>
+    <style>
+        html,body, #map{
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+    <script>
+        var map;
+        function initMap() {
+        // Create a map object and specify the DOM element for display.
+         map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 39.734545,  lng: -8.821109},
+          zoom: 16
+        });
+
+        var request = {
+            location: {lat: 39.734545,  lng: -8.821109},
+            radius: 5000,
+            types: ['cafe']
+        };
+        var service = new google.maps.places.PlacesService(map);
+
+        service.nearbySearch(request, callback)
+      }
+
+      function callback(results,status){
+          if(status == google.maps.places.PlacesServiceStatus.OK){
+              for (var i = 0; i < results.length; i++) {
+                  createMarker(results[i]) 
+              }
+          }
+      }
+
+      function createMarker(place){
+          var placeLoc = place.geometry.location;
+          var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location
+          });
+      }
+      
+    </script>
+ <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyA_u1G9VGIVXRZMvx2W25Wv1jdna_G7WBI&callback=initMap"
+ async defer></script>
+</head>
+<body>
+    <div id="map">
+    </div>
+</body>
+</html>

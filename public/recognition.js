@@ -156,7 +156,12 @@ function speechToEmotion() {
                 hour = 12;
                 am_pm = "AM";
             }
-    var fullTime = hour + ":" + min + ' ' + am_pm; 
+    if (min < 10) {
+      var fullTime = hour + ":0" + min + ' ' + am_pm; 
+    }else{
+      var fullTime = hour + ":" + min + ' ' + am_pm; 
+    }
+    
     utterThis = new SpeechSynthesisUtterance(`the time is ${time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true })}`);
     synth.speak(utterThis)
     output = `<div id="clock">${fullTime}</div>`
@@ -293,7 +298,6 @@ function speechToEmotion() {
         let movies = response.data.Search;
         let output = '';
         $.each(movies, (index,movie) =>{
-          
           output += `
               <div class="col-md-3">
                 <div class="well text-center">
@@ -304,6 +308,8 @@ function speechToEmotion() {
               </div>     
           `
         })
+        utterThis = new SpeechSynthesisUtterance(`here are some movies of ${speech.split(' ')[2]} that i found`);
+        synth.speak(utterThis)
         $(".emoji").html("<img class='popcorn'>")
         $('#movies').html(output)
       })
@@ -320,12 +326,10 @@ function speechToEmotion() {
 
     function getMovie(){
       let movieId = sessionStorage.getItem('movieId')
-
       axios.get('http://www.omdbapi.com/?apikey=9d90d9a2&i='+movieId)
       .then ((response) => {
         console.log(response)
         let movie = response.data
-
         let output = `
             <div class="row">
               <div class="col-md-4">
@@ -354,8 +358,6 @@ function speechToEmotion() {
                 </div>
               </div> 
             </div>
-
-
         `;
         $('#movie').html(output);
       })

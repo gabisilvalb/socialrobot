@@ -58,9 +58,6 @@ function speechToEmotion() {
       getJokes()
     }
 
-    
-
-    
     if(speech.includes('what is the weather in') || speech.includes('what is the temperature in')){
       getTheWeather(speech)
     }
@@ -68,6 +65,22 @@ function speechToEmotion() {
     if(speech.includes('what is the weather for tomorrow in') || speech.includes('what is the temperature for tomorrow in') ){
       getTheWeatherTomorrow(speech)
     }
+    if(speech.includes('moon phases for the month')){
+      utter.text = "Here are the moon phases for the month"
+      synth.speak(utter)
+      load_moon_phases(configMoon,moonMonth)
+    }
+    if(speech.includes('moon phases next month') || speech.includes('moon phases for the next month')){
+      utter.text = "Here are the moon phases for the next month"
+      synth.speak(utter)
+      load_moon_phases(configMoonNextMonth,moonMonth)
+    }
+    if(speech.includes('moon phase today') || speech.includes('moon phase for today')){
+      utter.text = "Here are the moon phase for today"
+      synth.speak(utter)
+      load_moon_phases(configMoon,moonToday)
+    }
+    
    
 
     if(speech.includes('goodbye') || speech.includes('see you soon')){
@@ -369,6 +382,86 @@ function speechToEmotion() {
         console.log(err)
       })
     }
+
+
+
+  function load_moon_phases(obj,callback){
+      var gets=[]
+      for (var i in obj){
+          gets.push(i + "=" +encodeURIComponent(obj[i]))
+      }
+      gets.push("LDZ=" + new Date(obj.year,obj.month-1,1) / 1000)
+      var xmlhttp = new XMLHttpRequest()
+      var url = "https://www.icalendar37.net/lunar/api/?" + gets.join("&")
+      xmlhttp.onreadystatechange = function() {
+          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+              callback(JSON.parse(xmlhttp.responseText))
+          }
+      }
+      xmlhttp.open("GET", url, true)
+      xmlhttp.send()
+  }
+  function moonMonth(moon){     
+      var phMax = []
+      for (var nDay in moon.phase){
+          if (moon.phase[nDay].isPhaseLimit){
+              phMax.push(
+                  '<div>' +
+                  '<span>' + nDay + '</span>' +
+                  moon.phase[nDay].svg  +
+                  '<div>' + moon.phase[nDay].phaseName  + '</div>' +
+                  '</div>' 
+              ) 
+          }
+      }
+      var width = 100 / phMax.length
+      var html = "<b>" + moon.monthName + " "+ moon.year + "</b>"
+      phMax.forEach(function(element){
+          html += '<div style="width:'+width+'%">' + element + '</div>' 
+      })
+      
+      document.getElementById("ex2").innerHTML = html
+  } 
+
+
+    function moonToday(moon){    
+      var day = new Date().getDate()
+      var dayWeek=moon.phase[day].dayWeek
+      var html = "<div>" +
+      "<b>" + moon.nameDay[dayWeek]+ "</b>" +
+      "<div>" + day + " <a>" + moon.monthName + "</a> " +
+      moon.year + "</div>" +
+      "<div shadow>" + moon.phase[day].svg + "</div>" +
+      "<div>" + moon.phase[day].phaseName + " " +
+      "" + ((moon.phase[day].isPhaseLimit )? ""  :   Math.round(moon.phase[day].lighting) + "%") +
+      "</div>" +
+      "</div>"
+      document.getElementById("ex2").innerHTML = html
+  }
+  
+  
+
+  var configMoon = {
+      lang  		:'en', 
+      month 		:new Date().getMonth() + 1,
+      year  		:new Date().getFullYear(),
+      size		:"50%", 
+      lightColor	:"white", 
+      shadeColor	:"black", 
+      texturize	:true, 
+  }
+
+  var configMoonNextMonth = {
+    lang  		:'en', 
+    month 		:new Date().getMonth() + 2,
+    year  		:new Date().getFullYear(),
+    size		:"50%", 
+    lightColor	:"white", 
+    shadeColor	:"black", 
+    texturize	:true, 
+}
+  
+
 
     function getMusics(speech){
     }

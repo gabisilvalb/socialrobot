@@ -37,7 +37,7 @@ function speechToEmotion() {
     $(".emoji").html("<img class='search'>")
     
 
-    if(speech.includes('hello') || speech.includes('hi') ){
+    if(speech == 'hello' || speech == "hi" ){
       utter.text = "Hi"
       synth.speak(utter)
     }
@@ -65,7 +65,7 @@ function speechToEmotion() {
     if(speech.includes('what is the weather for tomorrow in') || speech.includes('what is the temperature for tomorrow in') ){
       getTheWeatherTomorrow(speech)
     }
-    if(speech.includes('moon phases for the month')){
+    if(speech.includes('moon phases for the month') || speech.includes('moon phases this month')){
       utter.text = "Here are the moon phases for the month"
       synth.speak(utter)
       load_moon_phases(configMoon,moonMonth)

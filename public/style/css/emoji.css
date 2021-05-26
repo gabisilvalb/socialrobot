@@ -36,6 +36,7 @@
     background-color: black;
     font-family:arial;
     }
+    
     #ex2>b{
     display: block;
     color: #2c3e50;
@@ -45,9 +46,10 @@
     #ex2>a{
     display: block;
     color: white;
+    pointer-events: none;
     font-size: 24px;
     text-align: center;
-    }    
+    }
     #ex2>div{
     display: inline-block;
     vertical-align: top;
@@ -77,26 +79,21 @@
     display: block;
     margin: 10px auto 0 auto;
     }
+    #ex2>div>div>svg>g>a>circle{
+        pointer-events: none;
+    }
+
     #ex2 [shadow]{
         filter:drop-shadow(0 0 25px rgb(0,50,50));
         padding:15px 0;
         }
 
+
+
+
 .icon {
     padding: 15px 60px;
     border: none;
-}
-
-button {
-    padding: 15px 60px;
-    border: none;
-    background-color: rgb(221, 93, 18);
-    color: white;
-    font-size: 20px;
-    font-weight: 600;
-    border-radius: 5px;
-    width: 150px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 #movies, #movie img{

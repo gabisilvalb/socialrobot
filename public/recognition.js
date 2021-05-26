@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', speechToEmotion, false)
+const mealList = document.getElementById('meal');
+const mealDetailsContent = document.querySelector('.meal-details-content');
+const recipeCloseBtn = document.getElementById('btn-recipe-close');
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 const startBtn = document.querySelector("#start-btn")
 //Iniciar o speech
@@ -23,6 +26,11 @@ utter.lang = 'en-US'
 
 //teste1232
 //sdcjbwjcs
+
+mealList.addEventListener('click', getMealRecipe);
+recipeCloseBtn.addEventListener('click', () => {
+    mealDetailsContent.parentElement.classList.remove('showRecipe');
+});
 
 startBtn.addEventListener("click", () => { 
   recognition.start() 
@@ -61,6 +69,9 @@ function speechToEmotion() {
     if(speech.includes('what is the weather in') || speech.includes('what is the temperature in')){
       getTheWeather(speech)
     }
+    if (speech.includes('meals with') ){
+      getMealList(speech)
+    }
 
     if(speech.includes('what is the weather for tomorrow in') || speech.includes('what is the temperature for tomorrow in') ){
       getTheWeatherTomorrow(speech)
@@ -76,7 +87,7 @@ function speechToEmotion() {
       load_moon_phases(configMoonNextMonth,moonMonth)
     }
     if(speech.includes('moon phase today') || speech.includes('moon phase for today')){
-      utter.text = "Here are the moon phase for today"
+      utter.text = "Here is the moon phase for today"
       synth.speak(utter)
       load_moon_phases(configMoon,moonToday)
     }
@@ -398,17 +409,19 @@ function speechToEmotion() {
               callback(JSON.parse(xmlhttp.responseText))
           }
       }
-      xmlhttp.open("GET", url, true)
+      xmlhttp.open("GET",url, true)
       xmlhttp.send()
   }
+  
   function moonMonth(moon){     
       var phMax = []
+      console.log(moon)
       for (var nDay in moon.phase){
           if (moon.phase[nDay].isPhaseLimit){
               phMax.push(
                   '<div>' +
                   '<span>' + nDay + '</span>' +
-                  moon.phase[nDay].svg  +
+                  moon.phase[nDay].svgMini  +
                   '<div>' + moon.phase[nDay].phaseName  + '</div>' +
                   '</div>' 
               ) 
@@ -426,6 +439,7 @@ function speechToEmotion() {
 
     function moonToday(moon){    
       var day = new Date().getDate()
+      console.log(moon)
       var dayWeek=moon.phase[day].dayWeek
       var html = "<div>" +
       "<b>" + moon.nameDay[dayWeek]+ "</b>" +
@@ -462,6 +476,65 @@ function speechToEmotion() {
 }
   
 
+// get meal list that matches with the ingredients
+function getMealList(speech){
+  fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${speech.split(' ')[2]}`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+      let html = "";
+      if(data.meals){
+          data.meals.forEach(meal => {
+              html += `
+                <div class = "meal-item" data-id = "${meal.idMeal}">
+                    <div class = "meal-img">
+                      <img src = "${meal.strMealThumb}" alt = "food">
+                    </div>
+                    <div class = "meal-name">
+                      <h3>${meal.strMeal}</h3>
+                      <a href = "#" class = "btn btn-recipe">Get Recipe</a>
+                    </div>
+                </div>
+              </div>
+              `;
+          });
+          mealList.classList.remove('notFound');
+      } else{
+          html = "Sorry, we didn't find any meal!";
+          mealList.classList.add('notFound');
+      }
 
-    function getMusics(speech){
-    }
+      mealList.innerHTML = html;
+  });
+}
+
+function getMealRecipe(e){
+  e.preventDefault();
+  if(e.target.classList.contains('btn-recipe')){
+      let mealItem = e.target.parentElement.parentElement;
+      fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem.dataset.id}`)
+      .then(response => response.json())
+      .then(data =>mealRecipeModal(data.meals));
+  }
+}
+
+function mealRecipeModal(meal){
+  console.log(meal);
+  meal = meal[0];
+  let html = `
+      <h2 class = "recipe-title">${meal.strMeal}</h2>
+      <p class = "recipe-category">${meal.strCategory}</p>
+      <div class = "recipe-instruct">
+          <h3>Instructions:</h3>
+          <p>${meal.strInstructions}</p>
+      </div>
+      <div class = "recipe-meal-img">
+          <img src = "${meal.strMealThumb}" alt = "">
+      </div>
+      <div class = "recipe-link">
+          <a href = "${meal.strYoutube}" target = "_blank">Watch Video</a>
+      </div>
+  `;
+  mealDetailsContent.innerHTML = html;
+  mealDetailsContent.parentElement.classList.add('showRecipe');
+}

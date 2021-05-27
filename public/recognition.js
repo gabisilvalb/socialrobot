@@ -421,7 +421,7 @@ function speechToEmotion() {
               phMax.push(
                   '<div>' +
                   '<span>' + nDay + '</span>' +
-                  moon.phase[nDay].svgMini  +
+                  moon.phase[nDay].svg  +
                   '<div>' + moon.phase[nDay].phaseName  + '</div>' +
                   '</div>' 
               ) 
@@ -503,7 +503,8 @@ function getMealList(speech){
           html = "Sorry, we didn't find any meal!";
           mealList.classList.add('notFound');
       }
-
+      utterThis = new SpeechSynthesisUtterance(`here are some recipes with ${speech.split(' ')[2]}`);
+      synth.speak(utterThis)
       mealList.innerHTML = html;
   });
 }

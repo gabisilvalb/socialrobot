@@ -272,6 +272,20 @@ function speechToEmotion() {
       ${weather.weather[0].description} at a temperature of ${Math.round(weather.main.temp)} degrees Celcius`);
       synth.speak(utterThis)
       console.log(weather)
+      var dateSunRise = new Date(1000*weather.sys.sunrise);
+      var dateSunSet = new Date(1000*weather.sys.sunset);
+
+      var hoursSunRise = dateSunRise.getHours();
+      var hoursSunSet = dateSunSet.getHours();
+      // Minutes part from the timestamp
+      var minutesSunRise = "0" + dateSunRise.getMinutes();
+      var minutesSunSet = "0" + dateSunSet.getMinutes();
+      // Seconds part from the timestamp 
+      var secondsSunRise = "0" + dateSunRise.getSeconds();
+      var secondsSunSet = "0" + dateSunSet.getSeconds();
+      // Will display time in 10:30:23 format
+       var formattedTimeSunRise = hoursSunRise + ':' + minutesSunRise.substr(-2) + ':' + secondsSunRise.substr(-2);
+       var formattedTimeSunset = hoursSunSet + ':' + minutesSunSet.substr(-2) + ':' + secondsSunSet.substr(-2);
       output = `
       <br>
       <br>
@@ -287,6 +301,8 @@ function speechToEmotion() {
               <figure>
                 <h5 class="weather-${weather.weather[0].icon}"></h5>
                 <p style="font-size:150%; text-transform: uppercase"><strong>${weather.weather[0]["description"]}</strong></p>
+                <p>sunrise:${formattedTimeSunRise}</p>
+                <p>sunrise:${formattedTimeSunset}</p>
               </figure>
             </div>
           </div>

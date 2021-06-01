@@ -174,8 +174,12 @@ function speechToEmotion() {
   const getTime = () => {
     var time = new Date();
     var hour = time.getHours();
-    var min = time.getMinutes();
-    am_pm = "AM";
+    var min = "0" + time.getMinutes();
+    // Will display time in 10:30 format
+
+    var totalTime = hour + ':' + min.substr(-2);
+    
+   /* am_pm = "AM";
             if (hour > 12) {
                 hour -= 12;
                 am_pm = "PM";
@@ -188,11 +192,12 @@ function speechToEmotion() {
       var fullTime = hour + ":0" + min + ' ' + am_pm; 
     }else{
       var fullTime = hour + ":" + min + ' ' + am_pm; 
-    }
-    
-    utterThis = new SpeechSynthesisUtterance(`the time is ${time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true })}`);
+    }*/
+
+    utterThis = new SpeechSynthesisUtterance(`the time is ${totalTime}`);
     synth.speak(utterThis)
-    output = `<div id="clock">${fullTime}</div>`
+    console.log(hour)
+    output = `<div id="clock">${totalTime}</div>`
       $(".emoji").html(output)
   };
 
@@ -230,9 +235,22 @@ function speechToEmotion() {
         return;
       }
       console.log(weather)
-      utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.city.name} for tomorrow is mostly full of
-      ${weather.list[1].weather[0].description} with a temperature of ${Math.round(weather.list[1].temp.day)} degrees Celcius`);
-      synth.speak(utterThis)
+      var dateSunRise = new Date(1000*weather.list[1].sunrise);
+      var dateSunSet = new Date(1000*weather.list[1].sunset);
+
+      var hoursSunRise = dateSunRise.getHours();
+      var hoursSunSet = dateSunSet.getHours();
+      // Minutes part from the timestamp
+      var minutesSunRise = "0" + dateSunRise.getMinutes();
+      var minutesSunSet = "0" + dateSunSet.getMinutes();
+      // Will display time in 10:30 format
+
+      var formattedTimeSunRise = hoursSunRise + ':' + minutesSunRise.substr(-2);
+      var formattedTimeSunset = hoursSunSet + ':' + minutesSunSet.substr(-2);
+
+       utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.city.name} for tomorrow is mostly full of
+       ${weather.list[1].weather[0].description} with a temperature of ${Math.round(weather.list[1].temp.day)} degrees Celcius. The sunrise is at ${formattedTimeSunRise} and the sunset is at ${formattedTimeSunset}`);
+       synth.speak(utterThis)
       output = `
       <br>
       <br>
@@ -248,6 +266,8 @@ function speechToEmotion() {
               <figure>
                 <h5 class="weather-${weather.list[1].weather[0].icon}"></h5>
                 <p style="font-size:150%; text-transform: uppercase"><strong>${weather.list[1].weather[0].description}</strong></p>
+                <p><strong>The sunrise is at </strong>${formattedTimeSunRise}</p>
+                <p><strong>The sunset is at </strong>${formattedTimeSunset}</p>
               </figure>
             </div>
           </div>
@@ -284,8 +304,8 @@ function speechToEmotion() {
       var secondsSunRise = "0" + dateSunRise.getSeconds();
       var secondsSunSet = "0" + dateSunSet.getSeconds();
       // Will display time in 10:30:23 format
-       var formattedTimeSunRise = hoursSunRise + ':' + minutesSunRise.substr(-2) + ':' + secondsSunRise.substr(-2);
-       var formattedTimeSunset = hoursSunSet + ':' + minutesSunSet.substr(-2) + ':' + secondsSunSet.substr(-2);
+       var formattedTimeSunRise = hoursSunRise + ':' + minutesSunRise.substr(-2);
+       var formattedTimeSunset = hoursSunSet + ':' + minutesSunSet.substr(-2) ;
       output = `
       <br>
       <br>
@@ -301,8 +321,8 @@ function speechToEmotion() {
               <figure>
                 <h5 class="weather-${weather.weather[0].icon}"></h5>
                 <p style="font-size:150%; text-transform: uppercase"><strong>${weather.weather[0]["description"]}</strong></p>
-                <p>sunrise:${formattedTimeSunRise}</p>
-                <p>sunrise:${formattedTimeSunset}</p>
+                <p><strong>The sunrise is at </strong>${formattedTimeSunRise}</p>
+                <p><strong>The sunset is at </strong>${formattedTimeSunset}</p>
               </figure>
             </div>
           </div>

@@ -91,6 +91,9 @@ function speechToEmotion() {
       synth.speak(utter)
       load_moon_phases(configMoon,moonToday)
     }
+    if(speech.includes('news about') ){
+      getNews(speech);
+    }
     
    
 
@@ -574,4 +577,28 @@ function mealRecipeModal(meal){
   `;
   mealDetailsContent.innerHTML = html;
   mealDetailsContent.parentElement.classList.add('showRecipe');
+}
+
+function getNews(speech){
+  fetch(`https://newsapi.org/v2/everything?q=${speech.split(' ')[2]}&sortBy=relevancy&apiKey=016547e657e04e07ac5e3704a733e05c`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    let html = ""
+    data.articles.forEach(article =>{
+    html += `
+              <div class = "meal-item">
+                  <div class = "meal-img">
+                    <img src="${article.urlToImage}" alt ="news">
+                  </div>
+                  <div class = "meal-name">
+                  <a href = "${article.url}" target = "_blank">${article.title}</a>
+                  </div>
+              </div>
+              `;
+    });
+            utterThis = new SpeechSynthesisUtterance(`here are some of the most relevant news about ${speech.split(' ')[2]} that i found`);
+            synth.speak(utterThis)
+            document.getElementById("meal").innerHTML = html
+  });
 }

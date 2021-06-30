@@ -94,6 +94,10 @@ function speechToEmotion() {
     if(speech.includes('news about') ){
       getNews(speech);
     }
+    if(speech.includes('covid statistics in') || speech.includes('covid stats in') ){
+      getCovidStats(speech);
+    }
+    
     
    
 
@@ -257,7 +261,7 @@ function speechToEmotion() {
       output = `
       <br>
       <br>
-      <div class="card text-white mx-auto w-50 p-3 bg-info mb-3 text-center" style="max-width: 20rem;">
+      <div class="card text-white mx-auto w-50 p-3 bg-primary mb-3 text-center" style="max-width: 20rem;">
           <div class="card-header">
             <h2 class="city-name" data-name="${weather.city.name},${weather.city.country}">
               <span>${weather.city.name}</span>
@@ -312,7 +316,7 @@ function speechToEmotion() {
       output = `
       <br>
       <br>
-      <div class="card text-white mx-auto w-50 p-3 bg-info mb-3 text-center" style="max-width: 20rem;">
+      <div class="card text-white mx-auto w-50 p-3 bg-primary mb-3 text-center" style="max-width: 20rem;">
           <div class="card-header">
             <h2 class="city-name" data-name="${weather.name},${weather.sys.country}">
               <span>${weather.name}</span>
@@ -534,7 +538,6 @@ function getMealList(speech){
                       <a href = "#" class = "btn btn-recipe">Get Recipe</a>
                     </div>
                 </div>
-              </div>
               `;
           });
           mealList.classList.remove('notFound');
@@ -591,14 +594,80 @@ function getNews(speech){
                   <div class = "meal-img">
                     <img src="${article.urlToImage}" alt ="news">
                   </div>
+                  <div class = "container">
                   <div class = "meal-name">
                   <a href = "${article.url}" target = "_blank">${article.title}</a>
+                  </div>
                   </div>
               </div>
               `;
     });
-            utterThis = new SpeechSynthesisUtterance(`here are some of the most relevant news about ${speech.split(' ')[2]} that i found`);
-            synth.speak(utterThis)
-            document.getElementById("meal").innerHTML = html
+          utterThis = new SpeechSynthesisUtterance(`here are some of the most relevant news about ${speech.split(' ')[2]} that i found`);
+          synth.speak(utterThis)
+          document.getElementById("meal").innerHTML = html
   });
+}
+
+function getCovidStats(speech){
+  fetch(`https://corona.lmao.ninja/v2/countries/${speech.split(' ')[3]}`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    let html = `
+      <h1 class="">Covid-19 Cases In <span id="country">${data.country}</span>
+      <img src="${data.countryInfo.flag}" style= "width:80px;"></h1>
+      <div class="card-deck text-center">
+        <div class="card mb-2">
+          <div class="card-body bg-primary text-light rounded">
+            <h5 class="card-title"><i class="fas fa-tachometer-alt fa-2x"></i></h5>
+            <h4 class="card-text">Active Cases</h4>
+            <p class="card-text badge badge-outline-light">${data.active}</p>
+          </div>
+        </div>
+        <div class="card mb-2">
+          <div class="card-body bg-info text-light rounded">
+            <h5 class="card-title"><i class="fas fa-list fa-2x"></i></h5>
+            <h4 class="card-text">Total Cases</h4>
+            <p class="card-text badge badge-outline-light">${data.cases}</p>
+          </div>
+        </div>
+        <div class="card mb-2">
+          <div class="card-body bg-warning text-light rounded">
+            <h5 class="card-title"><i class="fas fa-times-circle fa-2x"></i></h5>
+            <h4 class="card-text">Critical Cases</h4>
+            <p class="card-text badge badge-outline-light">${data.critical}</p>
+          </div>
+        </div>
+        <div class="card mb-2">
+          <div class="card-body bg-danger text-light rounded">
+            <h5 class="card-title"><i class="fa fa-times fa-2x"></i></h5>
+            <h4 class="card-text">Total Death</h4>
+            <p class="card-text badge badge-outline-light">${data.deaths}</p>
+          </div>
+        </div>
+        <div class="card mb-2">
+          <div class="card-body bg-success text-light rounded">
+            <h5 class="card-title"><i class="fas fa-check-square fa-2x"></i></h5>
+            <h4 class="card-text">Recovered Cases</h4>
+            <p class="card-text badge badge-outline-light">${data.recovered}</p>
+          </div>
+        </div>
+        <div class="card mb-2">
+          <div class="card-body bg-secondary text-light rounded">
+            <h5 class="card-title"><i class="fas fa-eye fa-2x"></i></h5>
+            <h4 class="card-text">Total Test Done</h4>
+            <p class="card-text badge badge-outline-light">${data.tests}</p>
+          </div>
+        </div>
+      </div>
+    `
+    utterThis = new SpeechSynthesisUtterance(`these are the covid statistics in ${speech.split(' ')[3]}`);
+    synth.speak(utterThis)
+    document.getElementById("cards").innerHTML = html
+  })
+  
+  .catch(err => {
+    console.error(err);
+  });
+  
 }

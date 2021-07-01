@@ -207,6 +207,14 @@
     content:url("../images/popcorn.png");
 }
 
+.emoji .coronavirus{
+    content:url("../images/coronavirus.png");
+}
+
+.emoji .news{
+    content:url("../images/news.png");
+}
+
 
 .topnav-right {
     float: right;

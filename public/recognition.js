@@ -44,7 +44,6 @@ function speechToEmotion() {
     const speech = results[results.length-1][0].transcript
     $(".emoji").html("<img class='search'>")
     
-
     if(speech == 'hello' || speech == "hi" ){
       utter.text = "Hi"
       synth.speak(utter)
@@ -65,14 +64,12 @@ function speechToEmotion() {
     if(speech.includes('joke') || speech.includes('tell me a joke')){
       getJokes()
     }
-
     if(speech.includes('what is the weather in') || speech.includes('what is the temperature in')){
       getTheWeather(speech)
     }
     if (speech.includes('meals with') ){
       getMealList(speech)
     }
-
     if(speech.includes('what is the weather for tomorrow in') || speech.includes('what is the temperature for tomorrow in') ){
       getTheWeatherTomorrow(speech)
     }
@@ -98,9 +95,6 @@ function speechToEmotion() {
       getCovidStats(speech);
     }
     
-    
-   
-
     if(speech.includes('goodbye') || speech.includes('see you soon')){
       utter.text ="Bye, until the next time"
       synth.speak(utter)
@@ -110,11 +104,6 @@ function speechToEmotion() {
     if(speech.includes('movies of')){
       getMovies(speech)
     }
-
-    if(speech.includes('musics of')){
-      getMusics(speech)
-    }
-
     fetch(`/emotion?text=${speech}`)
       .then((response) => response.json())
       .then((result) => {
@@ -148,10 +137,10 @@ function speechToEmotion() {
       })
   }
 
- /* recognition.onerror = function(event) {
+  recognition.onerror = function(event) {
     console.error('Recognition error -> ', event.error)
     setEmoji('error')
-  }*/
+  }
 
   recognition.onstart = function() {
     $(".emoji").html("<img class='listening'>")  }
@@ -159,18 +148,15 @@ function speechToEmotion() {
   recognition.onend = function(){
     $(".emoji").html("<img class='idle'>")
     console.log('Speech recognition service disconnected')
-    
+    var x = document.getElementById("cards");
+    x.style.display = "none";
+    var x = document.getElementById("meal");
+    x.style.display = "none";
     setTimeout(function() {
       utter.text = "Is everything ok?"
       synth.speak(utter)
-    }, 100000);
-    
+    }, 100000); 
   }
-
-  /*recognition.onend = function() {
-    setEmoji('idle')
-    console.log('Speech recognition service disconnected')
-  }*/
 }
   const speak = (action) => {
     const utterThis = new SpeechSynthesisUtterance(action())
@@ -179,36 +165,26 @@ function speechToEmotion() {
 
   
   const getTime = () => {
+    var x = document.getElementById("cards");
+    x.style.display = "none";
+    var x = document.getElementById("meal");
+    x.style.display = "none";
     var time = new Date();
     var hour = time.getHours();
     var min = "0" + time.getMinutes();
-    // Will display time in 10:30 format
-
     var totalTime = hour + ':' + min.substr(-2);
-    
-   /* am_pm = "AM";
-            if (hour > 12) {
-                hour -= 12;
-                am_pm = "PM";
-            }
-            if (hour == 0) {
-                hour = 12;
-                am_pm = "AM";
-            }
-    if (min < 10) {
-      var fullTime = hour + ":0" + min + ' ' + am_pm; 
-    }else{
-      var fullTime = hour + ":" + min + ' ' + am_pm; 
-    }*/
-
     utterThis = new SpeechSynthesisUtterance(`the time is ${totalTime}`);
     synth.speak(utterThis)
     console.log(hour)
     output = `<div id="clock">${totalTime}</div>`
-      $(".emoji").html(output)
+    $(".emoji").html(output)
   };
 
   const getDate = () => {
+    var x = document.getElementById("cards");
+    x.style.display = "none";
+    var x = document.getElementById("meal");
+    x.style.display = "none";
     const time = new Date(Date.now());
     var today = new Date()
     var date = today.getDate() + '/' + (today.getMonth()+1)+'/'+today.getFullYear();
@@ -220,6 +196,10 @@ function speechToEmotion() {
   };
 
   const getDateTommorow = () => {
+    var x = document.getElementById("cards");
+    x.style.display = "none";
+    var x = document.getElementById("meal");
+    x.style.display = "none";
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -232,12 +212,17 @@ function speechToEmotion() {
   }
 
   const getTheWeatherTomorrow = (speech) => {
-    fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?q=${speech.split(' ')[7]}&units=metric&appid=08dbab0eeefe53317d2e0ad7c2a2e060`)
+    var x = document.getElementById("cards");
+    x.style.display = "none";
+    var x = document.getElementById("meal");
+    x.style.display = "none";
+    var trim = speech.trim()
+    fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?q=${trim.split(' ')[7]}&units=metric&appid=08dbab0eeefe53317d2e0ad7c2a2e060`)
     .then(function(response){
       return response.json();
     }).then(function(weather){
       if (weather.cod === '404'){
-        utterThis = new SpeechSynthesisUtterance(`I cannot find the weather for ${speech.split(' ')[7]}`);
+        utterThis = new SpeechSynthesisUtterance(`I cannot find the weather for ${trim.split(' ')[7]}`);
         synth.speak(utterThis)
         return;
       }
@@ -286,12 +271,17 @@ function speechToEmotion() {
 
 
   const getTheWeather = (speech) => {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${speech.split(' ')[5]}&units=metric&appid=7b4019f1b4eee1b323e6e6e61027976c`)
+    var x = document.getElementById("cards");
+    x.style.display = "none";
+    var x = document.getElementById("meal");
+    x.style.display = "none";
+    var trim = speech.trim()
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${trim.split(' ')[5]}&units=metric&appid=7b4019f1b4eee1b323e6e6e61027976c`)
     .then(function(response){
       return response.json();
     }).then(function(weather){
       if (weather.cod === '404'){
-        utterThis = new SpeechSynthesisUtterance(`I cannot find the weather for ${speech.split(' ')[5]}`);
+        utterThis = new SpeechSynthesisUtterance(`I cannot find the weather for ${trim.split(' ')[5]}`);
         synth.speak(utterThis)
         return;
       }
@@ -363,7 +353,8 @@ function speechToEmotion() {
   }
 
   function getMovies(speech){
-  axios.get('http://www.omdbapi.com/?apikey=9d90d9a2&s='+ speech.split(' ')[2])
+    var trim = speech.trim()
+      axios.get('http://www.omdbapi.com/?apikey=9d90d9a2&s='+ trim.split(' ')[2])
       .then ((response) => {
         console.log(response)
         let movies = response.data.Search;
@@ -379,7 +370,7 @@ function speechToEmotion() {
               </div>     
           `
         })
-        utterThis = new SpeechSynthesisUtterance(`here are some movies of ${speech.split(' ')[2]} that i found`);
+        utterThis = new SpeechSynthesisUtterance(`here are some movies of ${trim.split(' ')[2]} that i found`);
         synth.speak(utterThis)
         $(".emoji").html("<img class='popcorn'>")
         $('#movies').html(output)
@@ -521,7 +512,10 @@ function speechToEmotion() {
 
 // get meal list that matches with the ingredients
 function getMealList(speech){
-  fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${speech.split(' ')[2]}`)
+  var x = document.getElementById("cards");
+  x.style.display = "none";
+  var trim = speech.trim();
+  fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${trim.split(' ')[2]}`)
   .then(response => response.json())
   .then(data => {
     console.log(data)
@@ -545,7 +539,7 @@ function getMealList(speech){
           html = "Sorry, we didn't find any meal!";
           mealList.classList.add('notFound');
       }
-      utterThis = new SpeechSynthesisUtterance(`here are some recipes with ${speech.split(' ')[2]}`);
+      utterThis = new SpeechSynthesisUtterance(`here are some recipes with ${trim.split(' ')[2]}`);
       synth.speak(utterThis)
       mealList.innerHTML = html;
   });
@@ -583,7 +577,10 @@ function mealRecipeModal(meal){
 }
 
 function getNews(speech){
-  fetch(`https://newsapi.org/v2/everything?q=${speech.split(' ')[2]}&sortBy=relevancy&apiKey=016547e657e04e07ac5e3704a733e05c`)
+  var x = document.getElementById("meal");
+  x.style.display = "grid";
+  var trim = speech.trim()
+  fetch(`https://newsapi.org/v2/everything?q=${trim.split(' ')[2]}&sortBy=relevancy&apiKey=016547e657e04e07ac5e3704a733e05c`)
   .then(response => response.json())
   .then(data => {
     console.log(data)
@@ -602,14 +599,20 @@ function getNews(speech){
               </div>
               `;
     });
-          utterThis = new SpeechSynthesisUtterance(`here are some of the most relevant news about ${speech.split(' ')[2]} that i found`);
+          utterThis = new SpeechSynthesisUtterance(`here are some of the most relevant news about ${trim.split(' ')[2]} that i found`);
           synth.speak(utterThis)
           document.getElementById("meal").innerHTML = html
+          $(".emoji").html("<img class='news'>")
+          var x = document.getElementById("cards");
+          x.style.display = "none";
   });
 }
 
 function getCovidStats(speech){
-  fetch(`https://corona.lmao.ninja/v2/countries/${speech.split(' ')[3]}`)
+  var x = document.getElementById("cards");
+  x.style.display = "grid";
+  var trim = speech.trim()
+  fetch(`https://corona.lmao.ninja/v2/countries/${trim.split(' ')[3]}`)
   .then(response => response.json())
   .then(data => {
     console.log(data);
@@ -661,9 +664,13 @@ function getCovidStats(speech){
         </div>
       </div>
     `
-    utterThis = new SpeechSynthesisUtterance(`these are the covid statistics in ${speech.split(' ')[3]}`);
+    utterThis = new SpeechSynthesisUtterance(`these are the covid statistics in ${trim.split(' ')[3]}`);
     synth.speak(utterThis)
     document.getElementById("cards").innerHTML = html
+    $(".emoji").html("<img class='coronavirus'>")
+    var x = document.getElementById("meal");
+    x.style.display = "none";
+    
   })
   
   .catch(err => {

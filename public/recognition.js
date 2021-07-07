@@ -52,15 +52,7 @@ function speechToEmotion() {
       utter.text ="Glad to hear that"
       synth.speak(utter)
     }
-    if(speech.includes('sad') || speech.includes('bad day')){
-      utter.text ="That is terrible , let me tell you a joke"
-      synth.speak(utter)
-      getJokes()
-    }
-    if(speech.includes('happy') || speech.includes('amazing') || speech.includes('good day')){
-      utter.text ="I'm really happy for you"
-      synth.speak(utter)
-    }
+
     if(speech.includes('joke') || speech.includes('tell me a joke')){
       getJokes()
     }
@@ -104,13 +96,47 @@ function speechToEmotion() {
     if(speech.includes('movies of')){
       getMovies(speech)
     }
+
+    var randomInt = Math.floor(Math.random() * 4) + 1;
+
     fetch(`/emotion?text=${speech}`)
       .then((response) => response.json())
       .then((result) => {
         if (result.score > 0) {
+          console.log(randomInt)
+          if (randomInt == 1){
+            utter.text ="I'm really happy for you"
+            synth.speak(utter)
+          }if (randomInt == 2) {
+            utter.text ="Great to hear that"
+            synth.speak(utter)
+          }if (randomInt == 3){
+            utter.text ="If you are felling good, I am too"
+            synth.speak(utter)
+          }if (randomInt == 4) {
+            utter.text ="Amazing, I hope i can keep you with that feeling"
+            synth.speak(utter)
+          }
+
           $(".emoji").html("<img class='positive'>")
 
         } else if (result.score < 0) {
+          console.log(randomInt)
+          if (randomInt == 1) {
+            utter.text ="That is terrible , let me tell you a joke"
+            synth.speak(utter)
+            getJokes()
+          }if (randomInt == 2) {
+            utter.text ="It's really sad to hear that"
+            synth.speak(utter)
+          }if (randomInt == 3) {
+            utter.text ="I hate that"
+            synth.speak(utter)
+          }if (randomInt == 4) {
+            utter.text ="Stay positive tommorrow will be different"
+            synth.speak(utter)
+          }
+
           $(".emoji").html("<img class='negative'>")
 
 
@@ -119,7 +145,7 @@ function speechToEmotion() {
             getTime()
           }
           else if(speech == 'what is the date' || speech.includes('can you tell me de date') || speech.includes('what day is today') ){
-              getDate()
+            getDate()
           }
           else if(speech.includes('what day is tomorrow') || speech =='what is the date for tomorrow'){
             getDateTommorow()

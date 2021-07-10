@@ -15,7 +15,6 @@ app.get('/emotion', function(req, res) {
   const sentiment = new Sentiment()
   const text = req.query.text
   const score = sentiment.analyze(text)
-
   res.send(score)
 })
 

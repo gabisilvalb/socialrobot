@@ -5,10 +5,11 @@ const recipeCloseBtn = document.getElementById('btn-recipe-close');
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 const startBtn = document.querySelector("#start-btn")
 //Iniciar o speech
+
 const utter = new SpeechSynthesisUtterance()
 var voices = window.speechSynthesis.getVoices();
-
 const synth = window.speechSynthesis
+
 
 const recognition = new SpeechRecognition()
 recognition.lang = 'en-US'
@@ -22,10 +23,9 @@ utter.rate = 1
 utter.pitch = 1
 utter.lang = 'en-US'
 
+utter.text = "Hello"
+synth.speak(utter)
 
-
-//teste1232
-//sdcjbwjcs
 
 mealList.addEventListener('click', getMealRecipe);
 recipeCloseBtn.addEventListener('click', () => {
@@ -48,25 +48,20 @@ function speechToEmotion() {
       utter.text = "Hi"
       synth.speak(utter)
     }
-    if(speech.includes('great thank you')){
-      utter.text ="Glad to hear that"
-      synth.speak(utter)
-    }
-
     if(speech.includes('joke') || speech.includes('tell me a joke')){
       getJokes()
     }
     if(speech.includes('what is the weather in') || speech.includes('what is the temperature in')){
       getTheWeather(speech)
     }
-    if (speech.includes('meals with') ){
+    if (speech.includes('meals with') || speech.includes('recipes with') ){
       getMealList(speech)
     }
     if(speech.includes('what is the weather for tomorrow in') || speech.includes('what is the temperature for tomorrow in') ){
       getTheWeatherTomorrow(speech)
     }
     if(speech.includes('moon phases for the month') || speech.includes('moon phases this month')){
-      utter.text = "Here are the moon phases for the month"
+      utter.text = "These are the moon phases for the month"
       synth.speak(utter)
       load_moon_phases(configMoon,moonMonth)
     }
@@ -76,8 +71,6 @@ function speechToEmotion() {
       load_moon_phases(configMoonNextMonth,moonMonth)
     }
     if(speech.includes('moon phase today') || speech.includes('moon phase for today')){
-      utter.text = "Here is the moon phase for today"
-      synth.speak(utter)
       load_moon_phases(configMoon,moonToday)
     }
     if(speech.includes('news about') ){
@@ -86,7 +79,6 @@ function speechToEmotion() {
     if(speech.includes('covid statistics in') || speech.includes('covid stats in') ){
       getCovidStats(speech);
     }
-    
     if(speech.includes('goodbye') || speech.includes('see you soon')){
       utter.text ="Bye, until the next time"
       synth.speak(utter)
@@ -117,9 +109,7 @@ function speechToEmotion() {
             utter.text ="Amazing, I hope i can keep you with that feeling"
             synth.speak(utter)
           }
-
           $(".emoji").html("<img class='positive'>")
-
         } else if (result.score < 0) {
           console.log(randomInt)
           if (randomInt == 1) {
@@ -136,10 +126,7 @@ function speechToEmotion() {
             utter.text ="Stay positive tommorrow will be different"
             synth.speak(utter)
           }
-
           $(".emoji").html("<img class='negative'>")
-
-
         } else {
           if(speech.includes('what is the time') || speech.includes('what time is it') || speech.includes('can you tell me the time') ){
             getTime()
@@ -195,6 +182,8 @@ function speechToEmotion() {
     x.style.display = "none";
     var x = document.getElementById("meal");
     x.style.display = "none";
+    var x = document.getElementById("movies");
+    x.style.display = "none";
     var time = new Date();
     var hour = time.getHours();
     var min = "0" + time.getMinutes();
@@ -211,6 +200,8 @@ function speechToEmotion() {
     x.style.display = "none";
     var x = document.getElementById("meal");
     x.style.display = "none";
+    var x = document.getElementById("movies");
+    x.style.display = "none";
     const time = new Date(Date.now());
     var today = new Date()
     var date = today.getDate() + '/' + (today.getMonth()+1)+'/'+today.getFullYear();
@@ -225,6 +216,8 @@ function speechToEmotion() {
     var x = document.getElementById("cards");
     x.style.display = "none";
     var x = document.getElementById("meal");
+    x.style.display = "none";
+    var x = document.getElementById("movies");
     x.style.display = "none";
     const today = new Date()
     const tomorrow = new Date(today)
@@ -241,6 +234,8 @@ function speechToEmotion() {
     var x = document.getElementById("cards");
     x.style.display = "none";
     var x = document.getElementById("meal");
+    x.style.display = "none";
+    var x = document.getElementById("movies");
     x.style.display = "none";
     var trim = speech.trim()
     fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?q=${trim.split(' ')[7]}&units=metric&appid=08dbab0eeefe53317d2e0ad7c2a2e060`)
@@ -301,6 +296,8 @@ function speechToEmotion() {
     x.style.display = "none";
     var x = document.getElementById("meal");
     x.style.display = "none";
+    var x = document.getElementById("movies");
+    x.style.display = "none";
     var trim = speech.trim()
     fetch(`http://api.openweathermap.org/data/2.5/weather?q=${trim.split(' ')[5]}&units=metric&appid=7b4019f1b4eee1b323e6e6e61027976c`)
     .then(function(response){
@@ -311,9 +308,7 @@ function speechToEmotion() {
         synth.speak(utterThis)
         return;
       }
-      utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.name} is mostly full of
-      ${weather.weather[0].description} at a temperature of ${Math.round(weather.main.temp)} degrees Celcius`);
-      synth.speak(utterThis)
+      
       console.log(weather)
       var dateSunRise = new Date(1000*weather.sys.sunrise);
       var dateSunSet = new Date(1000*weather.sys.sunset);
@@ -323,12 +318,12 @@ function speechToEmotion() {
       // Minutes part from the timestamp
       var minutesSunRise = "0" + dateSunRise.getMinutes();
       var minutesSunSet = "0" + dateSunSet.getMinutes();
-      // Seconds part from the timestamp 
-      var secondsSunRise = "0" + dateSunRise.getSeconds();
-      var secondsSunSet = "0" + dateSunSet.getSeconds();
       // Will display time in 10:30:23 format
-       var formattedTimeSunRise = hoursSunRise + ':' + minutesSunRise.substr(-2);
-       var formattedTimeSunset = hoursSunSet + ':' + minutesSunSet.substr(-2) ;
+      var formattedTimeSunRise = hoursSunRise + ':' + minutesSunRise.substr(-2);
+      var formattedTimeSunset = hoursSunSet + ':' + minutesSunSet.substr(-2) ;
+      utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.name} is mostly full of
+      ${weather.weather[0].description} at a temperature of ${Math.round(weather.main.temp)} degrees Celcius. The sunrise is at ${formattedTimeSunRise} and the sunset is at ${formattedTimeSunset}`);
+      synth.speak(utterThis)
       output = `
       <br>
       <br>
@@ -355,6 +350,12 @@ function speechToEmotion() {
   }
 
   function getJokes(){
+    var x = document.getElementById("cards");
+    x.style.display = "none";
+    var x = document.getElementById("movies");
+    x.style.display = "none";
+    var x = document.getElementById("meal");
+    x.style.display = "none";  
     fetch('https://official-joke-api.appspot.com/jokes/general/random')
       .then(res => res.json())
       .then(data => {
@@ -379,6 +380,11 @@ function speechToEmotion() {
   }
 
   function getMovies(speech){
+    var x = document.getElementById("cards");
+    x.style.display = "none";
+    var x = document.getElementById("meal");
+    x.style.display = "none";
+    var trim = speech.trim()
     var trim = speech.trim()
       axios.get('http://www.omdbapi.com/?apikey=9d90d9a2&s='+ trim.split(' ')[2])
       .then ((response) => {
@@ -473,19 +479,24 @@ function speechToEmotion() {
       xmlhttp.send()
   }
   
-  function moonMonth(moon){     
-      var phMax = []
-      console.log(moon)
-      for (var nDay in moon.phase){
-          if (moon.phase[nDay].isPhaseLimit){
-              phMax.push(
-                  '<div>' +
-                  '<span>' + nDay + '</span>' +
-                  moon.phase[nDay].svg  +
-                  '<div>' + moon.phase[nDay].phaseName  + '</div>' +
-                  '</div>' 
-              ) 
-          }
+  function moonMonth(moon){ 
+    var x = document.getElementById("cards");
+    x.style.display = "none";
+    var x = document.getElementById("movies");
+    x.style.display = "none";
+    var x = document.getElementById("meal");
+    x.style.display = "none";      
+    var phMax = []
+    console.log(moon)
+    for (var nDay in moon.phase){
+      if (moon.phase[nDay].isPhaseLimit){
+        phMax.push(
+        '<div>' +
+        '<span>' + nDay + '</span>' +
+        moon.phase[nDay].svg  +
+        '<div>' + moon.phase[nDay].phaseName  + '</div>' +
+        '</div>' 
+        )}
       }
       var width = 100 / phMax.length
       var html = "<b>" + moon.monthName + " "+ moon.year + "</b>"
@@ -496,8 +507,13 @@ function speechToEmotion() {
       document.getElementById("ex2").innerHTML = html
   } 
 
-
-    function moonToday(moon){    
+    function moonToday(moon){
+      var x = document.getElementById("cards");
+      x.style.display = "none";
+      var x = document.getElementById("movies");
+      x.style.display = "none";
+      var x = document.getElementById("meal");
+      x.style.display = "none";    
       var day = new Date().getDate()
       console.log(moon)
       var dayWeek=moon.phase[day].dayWeek
@@ -510,11 +526,11 @@ function speechToEmotion() {
       "" + ((moon.phase[day].isPhaseLimit )? ""  :   Math.round(moon.phase[day].lighting) + "%") +
       "</div>" +
       "</div>"
+      utterThis = new SpeechSynthesisUtterance(`The moon today is ${moon.phase[day].phaseName}`);
+      synth.speak(utterThis)
       document.getElementById("ex2").innerHTML = html
   }
   
-  
-
   var configMoon = {
       lang  		:'en', 
       month 		:new Date().getMonth() + 1,
@@ -524,7 +540,6 @@ function speechToEmotion() {
       shadeColor	:"black", 
       texturize	:true, 
   }
-
   var configMoonNextMonth = {
     lang  		:'en', 
     month 		:new Date().getMonth() + 2,
@@ -535,11 +550,14 @@ function speechToEmotion() {
     texturize	:true, 
 }
   
-
 // get meal list that matches with the ingredients
 function getMealList(speech){
   var x = document.getElementById("cards");
   x.style.display = "none";
+  var x = document.getElementById("movies");
+  x.style.display = "none";
+  var x = document.getElementById("meal");
+  x.style.display = "grid";
   var trim = speech.trim();
   fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${trim.split(' ')[2]}`)
   .then(response => response.json())
@@ -603,6 +621,10 @@ function mealRecipeModal(meal){
 }
 
 function getNews(speech){
+  var x = document.getElementById("cards");
+  x.style.display = "none";
+  var x = document.getElementById("movies");
+  x.style.display = "none";
   var x = document.getElementById("meal");
   x.style.display = "grid";
   var trim = speech.trim()
@@ -629,13 +651,15 @@ function getNews(speech){
           synth.speak(utterThis)
           document.getElementById("meal").innerHTML = html
           $(".emoji").html("<img class='news'>")
-          var x = document.getElementById("cards");
-          x.style.display = "none";
   });
 }
 
 function getCovidStats(speech){
   var x = document.getElementById("cards");
+  x.style.display = "none";
+  var x = document.getElementById("movies");
+  x.style.display = "none";
+  var x = document.getElementById("meal");
   x.style.display = "grid";
   var trim = speech.trim()
   fetch(`https://corona.lmao.ninja/v2/countries/${trim.split(' ')[3]}`)
@@ -694,8 +718,6 @@ function getCovidStats(speech){
     synth.speak(utterThis)
     document.getElementById("cards").innerHTML = html
     $(".emoji").html("<img class='coronavirus'>")
-    var x = document.getElementById("meal");
-    x.style.display = "none";
     
   })
   

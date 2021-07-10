@@ -656,11 +656,11 @@ function getNews(speech){
 
 function getCovidStats(speech){
   var x = document.getElementById("cards");
-  x.style.display = "none";
+  x.style.display = "grid";
   var x = document.getElementById("movies");
   x.style.display = "none";
   var x = document.getElementById("meal");
-  x.style.display = "grid";
+  x.style.display = "none";
   var trim = speech.trim()
   fetch(`https://corona.lmao.ninja/v2/countries/${trim.split(' ')[3]}`)
   .then(response => response.json())
